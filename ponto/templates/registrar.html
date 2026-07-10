@@ -1,0 +1,25 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+    <meta charset="UTF-8">
+    <title>Registro de Ponto</title>
+</head>
+<body>
+    <h1>Registro de Ponto</h1>
+
+    <form method="post">
+        {% csrf_token %}
+        <input id="senha" type="text" name="senha" maxlength="4" pattern="[0-9]{4}" placeholder="Digite sua senha" required autofocus>
+        <button type="submit">Registrar</button>
+    </form>
+
+    {% if mensagem %}
+        <p>{{ mensagem }}</p>
+    {% endif %}
+    <script>
+        window.onload = function() {
+            document.getElementById("senha").focus();
+        };
+    </script>
+</body>
+</html>

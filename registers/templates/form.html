@@ -1,0 +1,25 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+    <meta charset="UTF-8">
+    <title>Cadastro de Funcionário</title>
+</head>
+<body>
+    <h1>Cadastro de Funcionário</h1>
+
+    <form method="post" enctype="multipart/form-data">
+        {% csrf_token %}
+        {{ form.as_p }}
+
+        <button type="submit">Salvar</button>
+        <a href="{% url 'listar_funcionarios' %}">Voltar</a>
+    </form>
+
+    {% if form.errors %}
+        <div style="color: red;">
+            <h3>Erros encontrados:</h3>
+            {{ form.errors }}
+        </div>
+    {% endif %}
+</body>
+</html>
