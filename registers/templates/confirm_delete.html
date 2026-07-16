@@ -1,18 +1,22 @@
-<!DOCTYPE html>
-<html lang="pt-br">
-<head>
-    <meta charset="UTF-8">
-    <title>Excluir Funcionário</title>
-</head>
-<body>
-    <h1>Confirmação de Exclusão</h1>
+{% extends 'base.html' %}
 
-    <p>Tem certeza que deseja excluir o funcionário <strong>{{ funcionario.nome_completo }}</strong>?</p>
+{% block title %}Excluir funcionário{% endblock %}
 
-    <form method="post">
-        {% csrf_token %}
-        <button type="submit">Sim, excluir</button>
-        <a href="{% url 'listar_funcionarios' %}">Cancelar</a>
-    </form>
-</body>
-</html>
+{% block content %}
+<div class="row justify-content-center">
+    <div class="col-lg-6">
+        <div class="card p-4 text-center">
+            <h1 class="h3 mb-3">Confirmação de exclusão</h1>
+            <p class="mb-4">Tem certeza que deseja excluir o funcionário <strong>{{ funcionario.nome_completo }}</strong>?</p>
+
+            <form method="post" class="d-flex justify-content-center gap-2 flex-wrap">
+                {% csrf_token %}
+                <button type="submit" class="btn btn-danger">
+                    <i class="bi bi-trash me-2"></i>Sim, excluir
+                </button>
+                <a class="btn btn-outline-success" href="{% url 'listar_funcionarios' %}"><i class="bi bi-x-circle me-2"></i>Cancelar</a>
+            </form>
+        </div>
+    </div>
+</div>
+{% endblock %}

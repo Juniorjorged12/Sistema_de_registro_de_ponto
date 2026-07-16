@@ -1,60 +1,75 @@
-<!DOCTYPE html>
-<html lang="pt-br">
-<head>
-    <meta charset="UTF-8">
-    <title>Relatório de {{ funcionario.nome_completo }}</title>
-    <a href="{% url 'relatorio_funcionario_pdf' funcionario.id %}?data_inicio={{ data_inicio }}&data_fim={{ data_fim }}">
-    Exportar PDF
-</a>
+{% extends 'base.html' %}
 
-</head>
-<body>
-    <h1>Relatório de Pontos - {{ funcionario.nome_completo }}</h1>
-    <h3>Cargo: {{ funcionario.cargo }}</h3>
+{% block title %}Relatório de {{ funcionario.nome_completo }}{% endblock %}
 
-    <div class="filtro">
-        <form method="get">
-            <label>Data início:</label>
-            <input type="date" name="data_inicio" value="{{ data_inicio }}">
-            <label>Data fim:</label>
-            <input type="date" name="data_fim" value="{{ data_fim }}">
-            <button type="submit">Filtrar</button>
-        </form>
+{% block content %}
+<div class="hero-card mb-4">
+    <div class="d-flex justify-content-between align-items-center flex-wrap gap-3">
+        <div>
+            <h1 class="h3 mb-1">Relatório de {{ funcionario.nome_completo }}</h1>
+            <p class="mb-0">Cargo: {{ funcionario.cargo }}</p>
+        </div>
+        <div class="d-flex gap-2 flex-wrap">
+            <a class="btn btn-light text-success" href="{% url 'relatorio_funcionario_pdf' funcionario.id %}?data_inicio={{ data_inicio }}&data_fim={{ data_fim }}"><i class="bi bi-file-earmark-pdf me-2"></i>Exportar PDF</a>
+            <a class="btn btn-outline-light" href="{% url 'listar_funcionarios' %}"><i class="bi bi-arrow-left me-2"></i>Voltar</a>
+        </div>
     </div>
+</div>
 
-    <table border="1" cellpadding="8" cellspacing="0">
-        <tr>
-            <th>Entrada</th>
-            <th>Saída</th>
-            <th>Status</th>
-            <th>Horas Trabalhadas</th>
-        </tr>
-        {% for registro in registros %}
-        <tr>
-            <td>{{ registro.data_hora_entrada|date:"d/m/Y H:i" }}</td>
-            <td>
-                {% if registro.data_hora_saida %}
-                    {{ registro.data_hora_saida|date:"d/m/Y H:i" }}
-                {% else %}
-                    -
-                {% endif %}
-            </td>
-            <td>
-                {% if registro.aberto %}
-                    Aberto
-                {% else %}
-                    Fechado
-                {% endif %}
-            </td>
-            <td>{{ registro.horas_trabalhadas }}</td>
-        </tr>
-        {% empty %}
-        <tr>
-            <td colspan="4">Nenhum registro encontrado.</td>
-        </tr>
-        {% endfor %}
-    </table>
+<div class="card p-4 mb-4">
+    <form method="get" class="row g-3 align-items-end">
+        <div class="col-md-4">
+            <label class="form-label fw-semibold">Data início</label>
+            <input type="date" class="form-control" name="data_inicio" value="{{ data_inicio }}">
+        </div>
+        <div class="col-md-4">
+            <label class="form-label fw-semibold">Data fim</label>
+            <input type="date" class="form-control" name="data_fim" value="{{ data_fim }}">
+        </div>
+        <div class="col-md-4">
+            <button type="submit" class="btn btn-success w-100"><i class="bi bi-funnel me-2"></i>Filtrar</button>
+        </div>
+    </form>
+</div>
 
-    <a href="{% url 'listar_funcionarios' %}">Voltar</a>
-</body>
-</html>
+<div class="card p-4">
+    <div class="table-responsive">
+        <table class="table table-hover align-middle">
+            <thead>
+                <tr>
+                    <th>Entrada</th>
+                    <th>Saída</th>
+                    <th>Status</th>
+                    <th>Horas Trabalhadas</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for registro in registros %}
+                <tr>
+                    <td>{{ registro.data_hora_entrada|date:"d/m/Y H:i" }}</td>
+                    <td>
+                        {% if registro.data_hora_saida %}
+                            {{ registro.data_hora_saida|date:"d/m/Y H:i" }}
+                        {% else %}
+                            -
+                        {% endif %}
+                    </td>
+                    <td>
+                        {% if registro.aberto %}
+                            <span class="badge-status badge-open">Aberto</span>
+                        {% else %}
+                            <span class="badge-status badge-closed">Fechado</span>
+                        {% endif %}
+                    </td>
+                    <td>{{ registro.horas_trabalhadas }}</td>
+                </tr>
+                {% empty %}
+                <tr>
+                    <td colspan="4" class="text-center text-muted py-4">Nenhum registro encontrado.</td>
+                </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+    </div>
+</div>
+{% endblock %}

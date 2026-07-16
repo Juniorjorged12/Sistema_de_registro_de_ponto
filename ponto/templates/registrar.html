@@ -1,25 +1,44 @@
-<!DOCTYPE html>
-<html lang="pt-br">
-<head>
-    <meta charset="UTF-8">
-    <title>Registro de Ponto</title>
-</head>
-<body>
-    <h1>Registro de Ponto</h1>
+{% extends 'base.html' %}
 
-    <form method="post">
-        {% csrf_token %}
-        <input id="senha" type="text" name="senha" maxlength="4" pattern="[0-9]{4}" placeholder="Digite sua senha" required autofocus>
-        <button type="submit">Registrar</button>
-    </form>
+{% block title %}Registro de ponto{% endblock %}
 
-    {% if mensagem %}
-        <p>{{ mensagem }}</p>
-    {% endif %}
-    <script>
-        window.onload = function() {
-            document.getElementById("senha").focus();
-        };
-    </script>
-</body>
-</html>
+{% block content %}
+<div class="row justify-content-center">
+    <div class="col-lg-6">
+        <div class="hero-card mb-4 text-center">
+            <h1 class="h3 mb-2">Registro de ponto</h1>
+            <p class="mb-0">Digite a senha do funcionário para abrir ou fechar o ponto de forma rápida.</p>
+        </div>
+
+        <div class="card p-4">
+            <form method="post" class="d-grid gap-3">
+                {% csrf_token %}
+                <div>
+                    <label for="senha" class="form-label fw-semibold">Senha</label>
+                    <input id="senha" class="form-control form-control-lg" type="text" name="senha" maxlength="4" pattern="[0-9]{4}" placeholder="Digite sua senha" required autofocus>
+                </div>
+
+                <button type="submit" class="btn btn-success btn-lg">
+                    <i class="bi bi-check-circle me-2"></i>Registrar ponto
+                </button>
+            </form>
+
+            {% if mensagem %}
+                <div class="alert alert-success mt-4 mb-0" role="alert">
+                    {{ mensagem }}
+                </div>
+            {% endif %}
+        </div>
+
+        <div class="mt-3 text-center">
+            <a class="btn btn-outline-success" href="{% url 'listar_funcionarios' %}"><i class="bi bi-arrow-left me-2"></i>Voltar para funcionários</a>
+        </div>
+    </div>
+</div>
+
+<script>
+    window.onload = function() {
+        document.getElementById("senha").focus();
+    };
+</script>
+{% endblock %}

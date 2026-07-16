@@ -1,46 +1,64 @@
-<!DOCTYPE html>
-<html lang="pt-br">
-<head>
-    <meta charset="UTF-8">
-    <title>Relatório de Pontos</title>
-</head>
-<body>
-    <h1>Relatório de Pontos por Funcionário</h1>
+{% extends 'base.html' %}
 
-    {% for item in dados %}
-        <h2>{{ item.funcionario.nome_completo }} ({{ item.funcionario.cargo }})</h2>
-        <table border="1" cellpadding="8" cellspacing="0">
-            <tr>
-                <th>Entrada</th>
-                <th>Saída</th>
-                <th>Status</th>
-            </tr>
-            {% for registro in item.registros %}
-            <tr>
-                <td>{{ registro.data_hora_entrada|date:"d/m/Y H:i" }}</td>
-                <td>
-                    {% if registro.data_hora_saida %}
-                        {{ registro.data_hora_saida|date:"d/m/Y H:i" }}
-                    {% else %}
-                        -
-                    {% endif %}
-                </td>
-                <td>
-                    {% if registro.aberto %}
-                        Aberto
-                    {% else %}
-                        Fechado
-                    {% endif %}
-                </td>
-            </tr>
-            {% empty %}
-            <tr>
-                <td colspan="3">Nenhum registro encontrado.</td>
-            </tr>
-            {% endfor %}
+{% block title %}Relatório de pontos{% endblock %}
+
+{% block content %}
+<div class="hero-card mb-4">
+    <div class="d-flex justify-content-between align-items-center flex-wrap gap-3">
+        <div>
+            <h1 class="h3 mb-2">Relatório de pontos</h1>
+            <p class="mb-0">Acompanhe os registros por funcionário e tenha uma visão mais organizada da frequência.</p>
+        </div>
+        <a class="btn btn-light text-success" href="{% url 'listar_funcionarios' %}"><i class="bi bi-arrow-left me-2"></i>Voltar</a>
+    </div>
+</div>
+
+{% for item in dados %}
+<div class="card p-4 mb-4">
+    <div class="d-flex justify-content-between align-items-center flex-wrap gap-2 mb-3">
+        <div>
+            <h2 class="h5 mb-1">{{ item.funcionario.nome_completo }}</h2>
+            <p class="text-muted mb-0">{{ item.funcionario.cargo }}</p>
+        </div>
+        <a class="btn btn-outline-success btn-sm" href="{% url 'relatorio_funcionario' item.funcionario.id %}"><i class="bi bi-eye me-2"></i>Detalhes</a>
+    </div>
+
+    <div class="table-responsive">
+        <table class="table table-hover align-middle">
+            <thead>
+                <tr>
+                    <th>Entrada</th>
+                    <th>Saída</th>
+                    <th>Status</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for registro in item.registros %}
+                <tr>
+                    <td>{{ registro.data_hora_entrada|date:"d/m/Y H:i" }}</td>
+                    <td>
+                        {% if registro.data_hora_saida %}
+                            {{ registro.data_hora_saida|date:"d/m/Y H:i" }}
+                        {% else %}
+                            -
+                        {% endif %}
+                    </td>
+                    <td>
+                        {% if registro.aberto %}
+                            <span class="badge-status badge-open">Aberto</span>
+                        {% else %}
+                            <span class="badge-status badge-closed">Fechado</span>
+                        {% endif %}
+                    </td>
+                </tr>
+                {% empty %}
+                <tr>
+                    <td colspan="3" class="text-center text-muted py-4">Nenhum registro encontrado.</td>
+                </tr>
+                {% endfor %}
+            </tbody>
         </table>
-        
-    {% endfor %}
-    <a href="{% url 'listar_funcionarios' %}">Voltar</a>
-</body>
-</html>
+    </div>
+</div>
+{% endfor %}
+{% endblock %}
