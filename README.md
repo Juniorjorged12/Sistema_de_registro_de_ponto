@@ -2,7 +2,7 @@
 
 Este projeto é um sistema desenvolvido em **Django** para gerenciar funcionários e controlar o registro de ponto (entrada e saída) através de uma senha numérica.  
 O foco principal foi o **backend**, garantindo regras de negócio sólidas e persistência correta dos dados.  
-O **frontend** é propositalmente simples, utilizando apenas HTML básico, já que o objetivo era demonstrar a lógica e não a estética.
+O **frontend** foi feito usando HTML CSS e Bootstrap, porem com o auxilio do  copilot pare melhorar e alinhas os templates.
 
 ---
 
