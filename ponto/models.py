@@ -3,7 +3,7 @@ from django.utils import timezone
 from registers.models import Funcionario
 
 class RegistroPonto(models.Model):
-    funcionario = models.ForeignKey(Funcionario, on_delete=models.PROTECT)
+    funcionario = models.ForeignKey(Funcionario, on_delete=models.CASCADE, related_name='registros_ponto')
     data_hora_entrada = models.DateTimeField(null=True, blank=True)
     data_hora_saida = models.DateTimeField(null=True, blank=True)
     aberto = models.BooleanField(default=False)

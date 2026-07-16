@@ -104,6 +104,7 @@
     </style>
 </head>
 <body>
+    {% block header %}
     <nav class="navbar navbar-expand-lg navbar-dark">
         <div class="container">
             <a class="navbar-brand fw-bold" href="{% url 'listar_funcionarios' %}">
@@ -115,6 +116,7 @@
             </div>
         </div>
     </nav>
+    {% endblock %}
 
     <main class="py-4">
         <div class="container">
