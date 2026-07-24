@@ -1,6 +1,6 @@
 from django.views.generic import ListView, CreateView, UpdateView, DeleteView
 from django.urls import reverse_lazy
-from django.db import OperationalError
+from django.db import OperationalError, DatabaseError
 from .models import Funcionario
 from .forms import FuncionarioForm
 
@@ -30,6 +30,13 @@ class FuncionarioCreateView(CreateView):
     form_class = FuncionarioForm
     template_name = 'form.html'
     success_url = reverse_lazy('listar_funcionarios')
+
+    def form_valid(self, form):
+        try:
+            return super().form_valid(form)
+        except (OperationalError, DatabaseError):
+            form.add_error(None, 'Não foi possível salvar o funcionário no momento. O banco ainda não está pronto.')
+            return self.form_invalid(form)
 
 # Editar funcionário
 class FuncionarioUpdateView(UpdateView):
