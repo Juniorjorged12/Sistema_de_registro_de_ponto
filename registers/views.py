@@ -1,5 +1,6 @@
 from django.views.generic import ListView, CreateView, UpdateView, DeleteView
 from django.urls import reverse_lazy
+from django.db import OperationalError
 from .models import Funcionario
 from .forms import FuncionarioForm
 
@@ -8,6 +9,12 @@ class FuncionarioListView(ListView):
     model = Funcionario
     template_name = 'listar.html'
     context_object_name = 'funcionarios'
+
+    def get_queryset(self):
+        try:
+            return super().get_queryset()
+        except OperationalError:
+            return Funcionario.objects.none()
 
 # Criar funcionário
 class FuncionarioCreateView(CreateView):
