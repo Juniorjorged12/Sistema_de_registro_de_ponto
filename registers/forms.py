@@ -1,4 +1,7 @@
 from django import forms
+from django.core.management import call_command
+from django.db import DatabaseError, OperationalError
+
 from .models import Funcionario
 
 
@@ -30,4 +33,15 @@ class FuncionarioForm(forms.ModelForm):
                 'placeholder': 'Digite a senha',
             }),
         }
+
+    def is_valid(self):
+        try:
+            return super().is_valid()
+        except (OperationalError, DatabaseError):
+            try:
+                call_command('migrate', interactive=False, verbosity=0)
+                return super().is_valid()
+            except Exception:
+                self.add_error(None, 'Não foi possível validar os dados no momento. O banco ainda não está pronto.')
+                return False
 
