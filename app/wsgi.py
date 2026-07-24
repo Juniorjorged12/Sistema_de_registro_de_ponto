@@ -9,11 +9,8 @@ https://docs.djangoproject.com/en/6.0/howto/deployment/wsgi/
 
 import os
 
-from django.core.management import call_command
 from django.core.wsgi import get_wsgi_application
 
 os.environ.setdefault('DJANGO_SETTINGS_MODULE', 'app.settings')
-
-call_command('migrate', '--noinput', verbosity=0)
 
 application = get_wsgi_application()
