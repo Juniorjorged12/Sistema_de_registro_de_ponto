@@ -3,8 +3,8 @@ services:
     name: sistema-registro-ponto
     env: python
     plan: free
-    buildCommand: ./build.sh
-    startCommand: gunicorn app.wsgi:application
+    buildCommand: bash build.sh
+    startCommand: gunicorn --bind 0.0.0.0:$PORT app.wsgi:application
     envVars:
       - key: DJANGO_SECRET_KEY
         generateValue: true
