@@ -1,0 +1,14 @@
+services:
+  - type: web
+    name: sistema-registro-ponto
+    env: python
+    plan: free
+    buildCommand: ./build.sh
+    startCommand: gunicorn app.wsgi:application
+    envVars:
+      - key: DJANGO_SECRET_KEY
+        generateValue: true
+      - key: DJANGO_DEBUG
+        value: False
+      - key: DJANGO_ALLOWED_HOSTS
+        value: "*"

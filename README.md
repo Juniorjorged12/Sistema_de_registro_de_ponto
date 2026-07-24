@@ -31,4 +31,16 @@ O **frontend** foi feito usando HTML CSS e Bootstrap, porem com o auxilio do  co
   - Filtro por intervalo de datas
   - Exportação para PDF com rodapé para assinatura
 
+## 🚀 Deploy no Render
+
+O projeto já está preparado para deploy no Render com os arquivos:
+- render.yaml
+- build.sh
+
+Passos:
+1. Envie o projeto para um repositório no GitHub.
+2. Acesse o Render e crie um novo Web Service conectando esse repositório.
+3. O Render vai usar o arquivo render.yaml automaticamente.
+4. Após o deploy, a aplicação ficará disponível em uma URL do Render.
+
 ---
