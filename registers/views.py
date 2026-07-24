@@ -16,6 +16,14 @@ class FuncionarioListView(ListView):
         except OperationalError:
             return Funcionario.objects.none()
 
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        try:
+            context['funcionarios'] = list(self.get_queryset())
+        except OperationalError:
+            context['funcionarios'] = []
+        return context
+
 # Criar funcionário
 class FuncionarioCreateView(CreateView):
     model = Funcionario
