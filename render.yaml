@@ -4,7 +4,7 @@ services:
     env: python
     plan: free
     buildCommand: bash build.sh
-    startCommand: gunicorn --bind 0.0.0.0:$PORT app.wsgi:application
+    startCommand: bash start.sh
     envVars:
       - key: DJANGO_SECRET_KEY
         generateValue: true
